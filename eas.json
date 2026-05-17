@@ -11,6 +11,13 @@
       },
       "channel": "development"
     },
+"preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "channel": "preview"
+    },
     "beta": {
       "distribution": "internal",
       "android": {
