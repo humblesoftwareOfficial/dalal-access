@@ -1,8 +1,8 @@
 import axios from "axios";
 
 let api = axios.create({
-  // baseURL: "https://wedding-service-rbkvf5x6ka-uc.a.run.app/",
-  baseURL: "http://192.168.1.34:3001",
+   baseURL: "https://booking-app-service-o7g3.onrender.com/",
+  // baseURL: "http://192.168.1.34:3001",
 });
 
 export const Authentication = async (payload) => {
