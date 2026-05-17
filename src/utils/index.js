@@ -338,10 +338,10 @@ export const EEventTypeTraduction = {
 };
 
 export const EEventStatus = {
-  ON_REQUEST : 'ON_REQUEST',
-  APPROVED : 'APPROVED',
-  CANCELLED : 'CANCELLED',
-}
+  ON_REQUEST: "ON_REQUEST",
+  APPROVED: "APPROVED",
+  CANCELLED: "CANCELLED",
+};
 
 export const formatDateToYYYYMMDD = (date) => {
   try {
@@ -350,8 +350,7 @@ export const formatDateToYYYYMMDD = (date) => {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   } catch (error) {
-    
-    console.log({ error })
+    console.log({ error });
     return "";
   }
 };
@@ -496,17 +495,13 @@ export const getDayOfEvent = (value) => {
       "Décembre",
     ];
     return (
-      date?.getDate() +
-      " " +
-      mois[date?.getMonth()] +
-      " " +
-      date?.getFullYear()
+      date?.getDate() + " " + mois[date?.getMonth()] + " " + date?.getFullYear()
     );
   } catch (error) {
-    console.log({ error })
+    console.log({ error });
     return "N/A";
   }
-}
+};
 
 export const timing = (date, notAdd = false) => {
   try {
@@ -530,11 +525,98 @@ export const timing = (date, notAdd = false) => {
       }
     }
   } catch (error) {
-    console.log({ error })
+    console.log({ error });
     return "";
   }
 };
 
 export const getPlatformDescription = () => {
-  return "Simplifiez-vous la vie.😀"
-}
+  return "Simplifiez-vous la vie.😀";
+};
+
+export const EReservationStatus = {
+  ON_REQUEST: "ON_REQUEST",
+  ACCEPTED: "ACCEPTED",
+  VALIDATED: "VALIDATED",
+  CANCELLED: "CANCELLED",
+  IN_PROGRESS: "IN_PROGRESS",
+  ENDED: "ENDED",
+};
+
+export const EReservationStatusTraduction = {
+  ON_REQUEST: "En attente",
+  ACCEPTED: "Acceptée",
+  CANCELLED: "Annulée",
+  IN_PROGRESS: "En cours",
+  ENDED: "Terminée",
+};
+
+export const calculateTimeDifference = (endDate) => {
+  const now = new Date();
+  const end = new Date(endDate);
+  const timeDiff = end - now;
+
+  const isPast = timeDiff < 0;
+  const absTimeDiff = Math.abs(timeDiff);
+
+  const days = Math.floor(absTimeDiff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (absTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  );
+  const minutes = Math.floor((absTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((absTimeDiff % (1000 * 60)) / 1000);
+
+  return {
+    isPast,
+    days,
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
+export const formatReservationIntervalDate = (startDate, endDate) => {
+  try {
+    if (startDate && endDate) {
+      return `${formatDateToDDMMYYYY(new Date(startDate))} - ${formatDateToDDMMYYYY(new Date(endDate))}`;
+    }
+    if (startDate && !endDate) {
+      return `${formatDateToDDMMYYYY(new Date(startDate))}`;
+    }
+    return "";
+  } catch (error) {
+    console.log({ error });
+    return "";
+  }
+};
+
+export const formatPrice = (value = "") =>
+  isFieldWithValue(value)
+    ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+    : "";
+
+export const USER_STORAGE_KEYS = [
+  "_access_token",
+  "_code",
+  "_phone",
+  "_pp",
+  "_ppkey",
+  "_firstName",
+  "_lastName",
+  "_account_type",
+  "_address",
+  "_company_code",
+  "_company_name",
+  "_company_description",
+  "_house_code",
+  "_house_name",
+  "_house_description",
+  "_house_medias",
+];
+
+export const EAccountType = {
+  ADMIN: "ADMIN",
+  SUPERVISOR: "SUPERVISOR",
+  ADMIN_PLATFORM: "ADMIN_PLATFORM",
+  ACCESS_CONTROLLER: "ACCESS_CONTROLLER",
+};

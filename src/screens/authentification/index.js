@@ -9,7 +9,6 @@ import CustomButton from "../../components/buttons/CustomButton";
 import { APP_COLORS } from "../../styling/colors";
 import BottomModal from "../../components/modals/BottomModal";
 import Connection from "./Connection";
-import Inscription from "./Inscription";
 import UserContext from "../../config/contexts/user/User";
 import FullLoadingContainer from "../../components/loaders/FullLoadingContainer";
 
@@ -35,6 +34,7 @@ export default function Authentication({ navigation, route }) {
       setAccount(data);
     } catch (error) {}
   };
+
   return (
     <SafeAreaView
       style={[
@@ -43,7 +43,7 @@ export default function Authentication({ navigation, route }) {
           // backgroundColor: APP_COLORS.PRIMARY_COLOR.color,
         },
       ]}
-      // edges={['right', 'left', 'top']}
+      edges={['right', 'left', 'top']}
     >
       <LinearGradient
         start={[0.1, 0.1]}
@@ -81,17 +81,11 @@ export default function Authentication({ navigation, route }) {
                 
               </View>
               <View style={AUTHENTICATION_STYLE.bottom}>
-                <Text style={{ textAlign: "center", fontSize: 9, color: "#F5F5F5" }}>
+                <Text style={{ textAlign: "center", fontSize: 9, color: "#F5F5F5", marginTop: 25 }}>
                   ©️ Humble Software Group{" "}
                 </Text>
                 <CustomButton
-                  label="Sign in"
-                  bgColor={APP_COLORS.PRIMARY_COLOR.color}
-                  onClick={() => setOpenInscription(true)}
-                  textColor={APP_COLORS.WHITE_COLOR.color}
-                />
-                <CustomButton
-                  label="Login"
+                  label="Connexion"
                   bgColor={APP_COLORS.WHITE_COLOR.color}
                   onClick={() => setOpenConnection(true)}
                   textColor={APP_COLORS.PRIMARY_COLOR.color}
@@ -114,24 +108,6 @@ export default function Authentication({ navigation, route }) {
               minHeight={MODAL_HEIGHT}
               backgroundColor="#F5F5F5"
               sliderBackgroundColor={APP_COLORS.PRIMARY_COLOR_DARK.color}
-              overlay="rgba(129, 143, 180, 0.3)"
-            />
-            <BottomModal
-              showModal={openInscription}
-              onClose={() => {
-                setOpenInscription(false);
-              }}
-              content={
-                <Inscription
-                  onClose={() => {
-                    setOpenInscription(false);
-                  }}
-                  onSigned={onConnection}
-                />
-              }
-              minHeight={MODAL_HEIGHT}
-              backgroundColor="#F5F5F5"
-              sliderBackgroundColor={APP_COLORS.PRIMARY_COLOR.color}
               overlay="rgba(129, 143, 180, 0.3)"
             />
           </>

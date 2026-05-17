@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { APP_COLORS } from "../../styling/colors";
 
-
 export default function DefaultInput({
   value,
   onValueChange,
@@ -28,7 +27,6 @@ export default function DefaultInput({
   topPrefix = 19,
   margin = 10,
   textAlignCenter = false,
-  backgroundColor = "#F5F5F5",
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -46,7 +44,6 @@ export default function DefaultInput({
             borderWidth: hasError ? 1 : 0.9,
             color: editable ? "#000" : "gray",
             margin,
-            backgroundColor
           },
           { paddingRight: isPassword ? 40 : 15 },
           { height: multiLine ? 90 : 45 },
@@ -75,13 +72,13 @@ export default function DefaultInput({
         >
           <View>
             {showPassword ? (
-              <Feather name="eye-off" size={20} color={APP_COLORS.PRIMARY_COLOR.color} />
-            ) : (
               <Feather
                 name="eye"
                 size={20}
                 color={APP_COLORS.PRIMARY_COLOR.color}
               />
+            ) : (
+              <Feather name="eye-off" size={20} color="#C5C5C5" />
             )}
           </View>
         </TouchableOpacity>
@@ -124,6 +121,7 @@ const styles = StyleSheet.create({
     // borderWidth: 0.9,
     padding: 10,
     borderRadius: 5,
+    backgroundColor: "#FFF",
   },
   iconPassword: {
     position: "absolute",

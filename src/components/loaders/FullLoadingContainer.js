@@ -1,7 +1,6 @@
 import { ActivityIndicator, View } from "react-native";
 import React from "react";
 
-import WeddingLoading from "./WeddingLoading";
 import { APP_COLORS } from "../../styling/colors";
 
 export default function FullLoadingContainer({
@@ -21,12 +20,6 @@ export default function FullLoadingContainer({
         alignItems: "center",
       }}
     >
-      {/* <WeddingLoading
-        text={text}
-        colorIcon={colorIcon}
-        backgroundLoaderContainer={backgroundLoaderContainer}
-        loaderColor={loaderColor}
-      /> */}
       <ActivityIndicator size="small" color={loaderColor} />
     </View>
   );

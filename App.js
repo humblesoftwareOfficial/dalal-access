@@ -63,7 +63,7 @@ export default function App() {
     async function prepare() {
       try {
         await _loadAssetsAsync();
-        await NavigationBar.setVisibilityAsync("hidden");
+        // await NavigationBar.setVisibilityAsync("hidden");
       } catch (e) {
         console.warn(e);
       } finally {

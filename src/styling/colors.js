@@ -19,6 +19,9 @@ export const APP_COLORS = StyleSheet.create({
   WHITE_COLOR: {
     color: "#F5F5F5",
   },
+  BLACK_COLOR: {
+    color: "#000",
+  },
   YELLOW_COLOR: {
     color: "#FFB100",
   },
@@ -33,5 +36,20 @@ export const APP_COLORS = StyleSheet.create({
   },
   DARK_COLOR: {
     color: "#161517"
-  }
+  },
+  YELLOW_COLOR_TRANSPARENT: {
+    color: "rgba(255, 177, 0, 0.3)",
+  },
+  PRIMARY_COLOR_TRANSPARENT: {
+    color: "rgba(47, 52, 91, 0.5)",
+  },
+  RED_TRANSPARENT_COLOR: {
+    color: "rgba(231, 64, 32, 0.5)",
+  },
+  BLUE_TRANSPARENT_COLOR: {
+    color: "rgba(24, 140, 215, 0.5)",
+  },
+  GREEN_TRANSPARENT_COLOR: {
+    color: "rgba(114, 226, 190, 0.5)",
+  },
 });

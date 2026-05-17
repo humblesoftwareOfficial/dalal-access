@@ -1,35 +1,36 @@
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import React from "react";
 import { HOME_HEADER_STYLE, PROFILE_SIZE } from "../../styling/system";
 import { Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { APP_COLORS } from "../../styling/colors";
 import { truncateText } from "../../utils";
 
-export default function HomeHeader({ user }) {
+export default function HomeHeader({ user, onScan, onShowUser }) {
   return (
     <View style={HOME_HEADER_STYLE.main}>
       <View style={HOME_HEADER_STYLE.left}>
-        <View style={[HOME_HEADER_STYLE.item, {}]}>
+        <TouchableOpacity style={[HOME_HEADER_STYLE.item, {}]} onPress={() => onShowUser && onShowUser()}>
           <FontAwesome5
             name="user-alt"
             size={Math.ceil(PROFILE_SIZE / 3)}
             color={APP_COLORS.PRIMARY_COLOR.color}
           />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={HOME_HEADER_STYLE.center}>
-        <View
+        <TouchableOpacity
           style={[
             HOME_HEADER_STYLE.item,
             { backgroundColor: APP_COLORS.PRIMARY_COLOR.color },
           ]}
+          onPress={() => onScan && onScan()}
         >
           <Ionicons
             name="qr-code"
             size={Math.ceil(PROFILE_SIZE / 2.5)}
             color="#FFF"
           />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={HOME_HEADER_STYLE.right}>
         <View

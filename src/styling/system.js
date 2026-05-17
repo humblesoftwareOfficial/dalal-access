@@ -12,6 +12,10 @@ export const PROFILE_SIZE = Math.ceil(
   Dimensions.get("screen").width / 10
 );
 
+export const USER_PROFILE_CIRCLE_SIZE = Math.ceil(Dimensions.get("window").width / 3);
+export const USER_RESERVATION_CIRCLE_SIZE = Math.ceil(Dimensions.get("window").width / 4);
+
+
 export const SAFE_AREA_VIEW = StyleSheet.create({
   container: {
     flex: 1,
@@ -135,3 +139,63 @@ export const HOME_HEADER_STYLE = StyleSheet.create({
 });
 
 export const PLATFORM_BOTTOM_MARGIN = Platform.OS === "ios" && Platform.Version >= 17 ? 15 : 0
+
+export const ACCOUNT_INFOS_CARD_STYLE = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: 25,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 10,
+    borderRadius: 35,
+    backgroundColor: 'rgb(255, 255, 255)',
+    justifyContent: "center",
+    
+  },
+  userCircle: {
+    width: USER_PROFILE_CIRCLE_SIZE,
+    height: USER_PROFILE_CIRCLE_SIZE,
+    borderRadius: USER_PROFILE_CIRCLE_SIZE,
+    backgroundColor: APP_COLORS.PRIMARY_COLOR.color,
+    shadowColor: "#152A2D",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: USER_PROFILE_CIRCLE_SIZE,
+    elevation: 3,
+    justifyContent: 'center',
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 15
+  },
+  userCircleReservation: {
+    width: USER_RESERVATION_CIRCLE_SIZE,
+    height: USER_RESERVATION_CIRCLE_SIZE,
+    borderRadius: USER_RESERVATION_CIRCLE_SIZE,
+    backgroundColor: APP_COLORS.PRIMARY_COLOR.color,
+    shadowColor: "#152A2D",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: USER_RESERVATION_CIRCLE_SIZE,
+    elevation: 3,
+    justifyContent: 'center',
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 15
+  },
+  userCredential: {
+    fontSize: 34,
+    fontFamily: FONTS.bold
+  },
+  userName: {
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  companyName: {
+    fontSize: 14,
+    color: APP_COLORS.PRIMARY_COLOR.color
+    // fontFamily: FONTS.bold
+  }
+});
