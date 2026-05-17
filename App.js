@@ -84,16 +84,6 @@ export default function App() {
       require("./src/assets/images/icon.png"),
       require("./src/assets/images/custom_icon.png"),
       require("./src/assets/images/empty.png"),
-      // require("./src/assets/images/flower.png"),
-      // require("./src/assets/images/flow_an.png"),
-      // require("./src/assets/images/flower__.png"),
-      // require("./src/assets/images/webflower_.png"),
-      // require("./src/assets/images/empty_fun.png"),
-      // require("./src/assets/images/empty.png"),
-      // require("./src/assets/images/empty.png"),
-      // require("./src/assets/images/no_favorites.png"),
-      // "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      // require("./assets/images/circle.jpg"),
     ]);
 
     try {

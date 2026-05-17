@@ -87,11 +87,6 @@
       "expo-secure-store",
       "@react-native-community/datetimepicker"
     ],
-    "updates": {
-      "url": "https://u.expo.dev/774a464e-70e4-43c5-8a88-ae11fee377d2",
-      "enabled": true,
-      "fallbackToCacheTimeout": 0
-    },
     "runtimeVersion": {
       "policy": "appVersion"
     },
