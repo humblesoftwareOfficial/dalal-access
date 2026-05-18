@@ -16,6 +16,7 @@ import { APP_COLORS } from "../../styling/colors";
 import { ACCOUNT_INFOS_CARD_STYLE } from "../../styling/system";
 import { EReservationStatus, isFieldWithValue } from "../../utils";
 import { FONTS } from "../../styling/polices";
+import CustomButton from "../../components/buttons/CustomButton";
 
 const STATUS_CONFIG = {
   ON_REQUEST: {
@@ -64,7 +65,7 @@ const Row = ({ icon, label, value }) => (
   </View>
 );
 
-export default function DetailsReservation({ data, onClose }) {
+export default function DetailsReservation({ data, onClose, onReport }) {
   if (!data) return null;
 
   const { code, status, startDate, endDate, user, place, company, isExtended } =
@@ -158,8 +159,33 @@ export default function DetailsReservation({ data, onClose }) {
   }, [data]);
 
   return (
-    <View style={styles.container}>
-      <View style={ACCOUNT_INFOS_CARD_STYLE.container}>
+    <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row-reverse",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            style={{ marginLeft: 15, marginRight: 5 }}
+            onPress={() => onClose && onClose()}
+          >
+            <AntDesign name="close" size={24} color="black" />
+          </TouchableOpacity>
+          {status === EReservationStatus.IN_PROGRESS && (
+            <CustomButton
+              label="Signaler le client"
+              bgColor={APP_COLORS.RED_COLOR.color}
+              onClick={() => onReport && onReport()}
+            />
+          )}
+        </View>
+        <View></View>
+      </View>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        {/* <View style={ACCOUNT_INFOS_CARD_STYLE.container}>
         <View style={ACCOUNT_INFOS_CARD_STYLE.userCircleReservation}>
           <Text
             style={[
@@ -183,80 +209,81 @@ export default function DetailsReservation({ data, onClose }) {
             {isFieldWithValue(user?.fullName) ? user?.fullName : ""}
           </Text>
         </View>
-      </View>
+      </View> */}
 
-      {user && (
-        <>
-          <View style={styles.card}>
-            <Row
-              icon="person"
-              label="Nom"
-              value={
-                user.fullName ||
-                `${user.firstName} ${user.lastName}`.trim() ||
-                "—"
-              }
-            />
-            <Row icon="call-outline" label="Téléphone" value={user.phone} />
-            {!!user.identification && (
+        {user && (
+          <>
+            <View style={styles.card}>
               <Row
-                icon="card-outline"
-                label="Identification"
-                value={user.identification}
+                icon="person"
+                label="Nom"
+                value={
+                  user.fullName ||
+                  `${user.firstName} ${user.lastName}`.trim() ||
+                  "—"
+                }
               />
-            )}
-          </View>
-        </>
-      )}
-      <View
-        style={[
-          styles.dateRow,
-          {
-            backgroundColor: getReservationStatusColor(data?.status),
-          },
-        ]}
-      >
-        <DateBox label="Début" date={formatDate(startDate)} />
-        <Ionicons name="arrow-forward" size={18} color="#FFF" />
-        <DateBox label="Fin" date={formatDate(endDate)} />
-      </View>
-      {place && (
-        <>
-          <View style={styles.card}>
-            <Text style={styles.placeType}>Pièce</Text>
-            <View style={styles.placeHeader}>
-              <Text style={styles.placeLabel}>{place.label}</Text>
+              <Row icon="call-outline" label="Téléphone" value={user.phone} />
+              {!!user.identification && (
+                <Row
+                  icon="card-outline"
+                  label="Identification"
+                  value={user.identification}
+                />
+              )}
             </View>
-
-            {!!place.description && (
-              <Text style={styles.placeDesc}>{place.description}</Text>
-            )}
-          </View>
-        </>
-      )}
-      {isFieldWithValue(status) && (
-        <View style={styles.card}>
-          <Text
-            style={{
-              color: "black",
-              fontSize: 24,
-              fontFamily: FONTS.bold,
-              textAlign: "center",
-            }}
-          >
-            {statusCfg?.label}
-          </Text>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 15,
-            }}
-          >
-            {renderStatusAccessInfo()}
-          </View>
+          </>
+        )}
+        <View
+          style={[
+            styles.dateRow,
+            {
+              backgroundColor: getReservationStatusColor(data?.status),
+            },
+          ]}
+        >
+          <DateBox label="Début" date={formatDate(startDate)} />
+          <Ionicons name="arrow-forward" size={18} color="#FFF" />
+          <DateBox label="Fin" date={formatDate(endDate)} />
         </View>
-      )}
+        {place && (
+          <>
+            <View style={styles.card}>
+              <Text style={styles.placeType}>Pièce</Text>
+              <View style={styles.placeHeader}>
+                <Text style={styles.placeLabel}>{place.label}</Text>
+              </View>
+
+              {!!place.description && (
+                <Text style={styles.placeDesc}>{place.description}</Text>
+              )}
+            </View>
+          </>
+        )}
+        {isFieldWithValue(status) && (
+          <View style={styles.card}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 24,
+                fontFamily: FONTS.bold,
+                textAlign: "center",
+              }}
+            >
+              {statusCfg?.label}
+            </Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 15,
+              }}
+            >
+              {renderStatusAccessInfo()}
+            </View>
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }

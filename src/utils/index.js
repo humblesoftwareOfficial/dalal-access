@@ -3,10 +3,7 @@ import { APP_COLORS } from "../styling/colors";
 export const SCREENS_NAME = {
   Authentication: "Authentication",
   Home: "Home",
-  Guests: "Guests",
-  EventAccess: "EventAccess",
-  NewGuest: "NewGuest",
-  GuestInfos: "GuestInfos",
+  ReservationReport: "ReservationReport",
 };
 
 export const VIEWS_NAME = {
@@ -620,3 +617,45 @@ export const EAccountType = {
   ADMIN_PLATFORM: "ADMIN_PLATFORM",
   ACCESS_CONTROLLER: "ACCESS_CONTROLLER",
 };
+
+export const countNights = (start, end) => {
+  try {
+    if (!start || !end) return null;
+    const n = Math.round((new Date(end) - new Date(start)) / 86400000);
+    return n > 0 ? n : null;
+  } catch (error) {
+    console.log({ error });
+    return null;
+  }
+};
+
+export async function PostImageToCDN(image) {
+  try {
+    let base64Img = `data:image/jpg;base64,${image}`;
+    let data = {
+      file: base64Img,
+      upload_preset: "push-market",
+    };
+    return await fetch(
+      "https://api.Cloudinary.com/v1_1/faceshop/image/upload",
+      {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+      }
+    )
+      .then(async (r) => {
+        const data = await r.json();
+        return data.secure_url;
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

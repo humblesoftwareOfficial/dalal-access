@@ -1,8 +1,8 @@
 import axios from "axios";
 
 let api = axios.create({
-   baseURL: "https://booking-app-service-o7g3.onrender.com/",
-  // baseURL: "http://192.168.1.34:3001",
+  //  baseURL: "https://booking-app-service-o7g3.onrender.com/",
+  baseURL: "http://192.168.1.34:3001",
 });
 
 export const Authentication = async (payload) => {
@@ -23,11 +23,17 @@ export const GetRequests = async (payload, token = "") => {
   return await api.post("/reservations/list", payload);
 };
 
+export const ReportReservation = async (payload, token = "") => {
+  api.defaults.headers["Authorization"] = `Bearer ${token}`;
+  return await api.post(`/reservations/report`, payload);
+};
+
 const apis = {
   Authentication,
   UpdateUserInfos,
   GetReservationInfos,
-  GetRequests
+  GetRequests,
+  ReportReservation,
 };
 
 export default apis;

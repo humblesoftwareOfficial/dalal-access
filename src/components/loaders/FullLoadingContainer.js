@@ -20,7 +20,7 @@ export default function FullLoadingContainer({
         alignItems: "center",
       }}
     >
-      <ActivityIndicator size="small" color={loaderColor} />
+      <ActivityIndicator size="large" color={loaderColor} />
     </View>
   );
 }

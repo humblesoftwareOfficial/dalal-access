@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { APP_COLORS } from "../../styling/colors";
@@ -19,7 +19,7 @@ import UserContext from "../../config/contexts/user/User";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDidMountEffect } from "../hooks/useDidMountEffect";
 
-export default function ReservationsRequestsList({
+function ReservationsRequestsList({
   navigation,
   selectedStatus,
   reload = 0,
@@ -27,6 +27,7 @@ export default function ReservationsRequestsList({
   filterDate = null,
   onScroll,
   listHeader,
+  onShowReservation
 }) {
   const [requests, setRequests] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,7 +116,7 @@ export default function ReservationsRequestsList({
 
   const renderItems = useCallback(
     ({ item, index }) => (
-      <RequestCardSimpleView data={item} key={generateKey()} onClick={() => null} />
+      <RequestCardSimpleView data={item} key={generateKey()} onClick={() => onShowReservation && onShowReservation(item.code)} />
     ),
     [],
   );
@@ -145,9 +146,9 @@ export default function ReservationsRequestsList({
       {isLoading ? (
         <FullLoadingContainer
           backgroundColor="transparent"
-          colorIcon={APP_COLORS.PRIMARY_COLOR.color}
-          backgroundLoaderContainer="transparent"
-          loaderColor={APP_COLORS.PRIMARY_COLOR.color}
+          colorIcon={APP_COLORS.YELLOW_COLOR.color}
+          backgroundLoaderContainer={APP_COLORS.YELLOW_COLOR.color}
+          loaderColor={APP_COLORS.YELLOW_COLOR.color}
         />
       ) : Boolean(requests?.length) ? (
         <FlatList
@@ -204,3 +205,5 @@ export default function ReservationsRequestsList({
     </>
   );
 }
+
+export default memo(ReservationsRequestsList);

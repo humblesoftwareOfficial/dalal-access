@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { View, Text, Platform, Dimensions, Modal } from "react-native";
 import {
   SafeAreaView,
@@ -15,14 +15,17 @@ import CustomButton from "../../components/buttons/CustomButton";
 import HomeHeader from "../../components/headers/HomeHeader";
 import Scanner from "./Scanner";
 import DetailsReservation from "./DetailsReservation";
+import ReservationReport from "./ReservationReport";
 import { GetReservationInfos } from "../../config/api";
 import BottomModal from "../../components/modals/BottomModal";
 import ReservationsRequestsList from "../../components/lists/ReservationsList";
 import UserProfile from "./UserProfile";
-import { EAccountType, USER_STORAGE_KEYS } from "../../utils";
+import { EAccountType, SCREENS_NAME, USER_STORAGE_KEYS } from "../../utils";
 import { RemoveItemToStorage } from "../../config/local/local.database";
 
 const MODAL_HEIGHT = Math.ceil(Dimensions.get("window").height / 1.2);
+const EMPTY_OBJECT = {};
+const NOOP = () => null;
 const MODAL_HEIGHT_ERROR = Math.ceil(Dimensions.get("window").height / 1.5);
 
 const DEFAULT_IMAGE =
@@ -36,6 +39,7 @@ const Home = ({ navigation, route }) => {
   const [showError, setShowError] = useState(false);
   const [textError, setTextError] = useState("");
   const [showUserProfile, setShowUserProfile] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const { account, setAccount, setIsAuthenticated } = useContext(UserContext);
   const insets = useSafeAreaInsets();
 
@@ -52,11 +56,11 @@ const Home = ({ navigation, route }) => {
     }
   };
 
-  const getReservation = async (code) => {
+  const getReservation = useCallback(async (code) => {
     try {
       setIsLoadingData(true);
       const response = await GetReservationInfos(code);
-      const { success, data } = response.data;
+      const { success, data, message, error  } = response.data;
       if (success) {
         let canView = false;
         const { house, company } = data;
@@ -68,26 +72,30 @@ const Home = ({ navigation, route }) => {
           setData(data);
         }
         if (
-          [EAccountType.ACCESS_CONTROLLER, EAccountType.SUPERVISOR].includes(account?.accountType) &&
+          [EAccountType.ACCESS_CONTROLLER, EAccountType.SUPERVISOR].includes(
+            account?.accountType,
+          ) &&
           account.house.code === data?.place?.house?.code
         ) {
           canView = true;
           setData(data);
         }
-        if (canView) setIsLoadingData(false);
-        else {
+        if (!canView) {
           setShowError(true);
           setTextError("Vous n'êtes pas autorisés à voir cette information.");
-          setIsLoadingData(false);
         }
+      } else {
+        setShowError(true);
+        setTextError(message);
       }
+       setIsLoadingData(false);
     } catch (error) {
       console.log({ error });
       setShowError(true);
       setTextError("Une erreur est survenue. Veuillez Réessayer SVP.");
       setIsLoadingData(false);
     }
-  };
+  }, [account]);
 
   const onLogout = async () => {
     try {
@@ -103,6 +111,27 @@ const Home = ({ navigation, route }) => {
       setIsLoading(false);
     }
   };
+
+  const listHeader = useMemo(
+    () => (
+      <HomeHeader
+        user={account}
+        onScan={() => setOpenScanner(true)}
+        onShowUser={() => setShowUserProfile(true)}
+        isLoadingQrCode={isLoadingData}
+      />
+    ),
+    [account, isLoadingData],
+  );
+
+  const onReport = (reservation) => {
+    try {
+      setData(null)
+      navigation.navigate(SCREENS_NAME.ReservationReport, { data: reservation })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
 
   return (
     <HouseImageBackground
@@ -126,29 +155,16 @@ const Home = ({ navigation, route }) => {
           />
         ) : (
           <>
-            <HomeHeader
-              user={account}
-              onScan={() => setOpenScanner(true)}
-              onShowUser={() => setShowUserProfile(true)}
-            />
             <View style={{ flex: 1 }}>
-              {isLoadingData ? (
-                <FullLoadingContainer
-                  backgroundColor="transparent"
-                  colorIcon={APP_COLORS.YELLOW_COLOR.color}
-                  backgroundLoaderContainer="transparent"
-                  loaderColor={APP_COLORS.YELLOW_COLOR.color}
-                />
-              ) : // <ReservationsRequestsList
-              //   navigation={navigation}
-              //   selectedStatus={{}}
-              //   reload={() => null}
-              //   // searchTerm={validatedSearchTerm}
-              //   // filterDate={appliedFilterDate}
-              //   listHeader={null}
-              //   onScroll={(e) => null}
-              // />
-              null}
+              <ReservationsRequestsList
+                navigation={navigation}
+                selectedStatus={EMPTY_OBJECT}
+                // searchTerm={validatedSearchTerm}
+                // filterDate={appliedFilterDate}
+                onShowReservation={getReservation}
+                listHeader={listHeader}
+                onScroll={NOOP}
+              />
             </View>
             <View style={{ marginBottom: 20 }}>
               <CustomButton
@@ -191,7 +207,11 @@ const Home = ({ navigation, route }) => {
           showModal={!!data}
           onClose={() => setData(null)}
           content={
-            <DetailsReservation data={data} onClose={() => setData(null)} />
+            <DetailsReservation
+              data={data}
+              onClose={() => setData(null)}
+              onReport={() => onReport(data)}
+            />
           }
           minHeight={MODAL_HEIGHT}
           backgroundColor="#F5F5F5"
@@ -270,6 +290,7 @@ const Home = ({ navigation, route }) => {
           sliderBackgroundColor={APP_COLORS.WHITE_COLOR.color}
           overlay="rgba(129, 143, 180, 0.3)"
         />
+        
       </SafeAreaView>
     </HouseImageBackground>
   );

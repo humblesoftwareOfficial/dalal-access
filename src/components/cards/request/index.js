@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import React from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import CountdownTimer from './ReservationTimer';
-import { calculateTimeDifference, EReservationStatus, EReservationStatusTraduction, formatPrice, formatReservationIntervalDate, generateKey, isFieldWithValue, timing, truncateText } from "../../../utils";
+import { calculateTimeDifference, countNights, EReservationStatus, EReservationStatusTraduction, formatPrice, formatReservationIntervalDate, generateKey, isFieldWithValue, timing, truncateText } from "../../../utils";
 import { APP_COLORS } from "../../../styling/colors";
 
 const STATUS_CONFIG = {
@@ -61,7 +61,7 @@ export default function RequestCardSimpleView({ data, onClick }) {
     ? data?.place?.label
     : data?.place?.deescription || "";
   const roomLabel = truncateText(
-    [houseName, roomDesc].filter(Boolean).join(" · "),
+    ["Pièce", roomDesc].filter(Boolean).join(" · "),
     34,
   );
   const price = data?.price?.value || data?.place?.prices?.[0]?.value;
@@ -87,6 +87,9 @@ export default function RequestCardSimpleView({ data, onClick }) {
         // borderWidth: 1,
         // borderColor: config.border,
         overflow: "hidden",
+      // backgroundColor: isOverdue
+      //         ? "rgba(237, 230, 231, 0.8)"
+      //         : "white",
       }}
     >
       <View style={{ flexDirection: "row", padding: 5 }}>
@@ -122,19 +125,19 @@ export default function RequestCardSimpleView({ data, onClick }) {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginBottom: 2,
+              marginBottom: 5,
             }}
           >
             <Text
               style={{
                 fontWeight: "700",
-                fontSize: 13,
+                // fontSize: 18,
                 flex: 1,
                 color: "#152A2D",
               }}
               numberOfLines={1}
             >
-              {clientName}
+             {clientName}
             </Text>
             <Text style={{ fontSize: 10, color: "#8FA3A7", marginLeft: 4 }}>
               {isFieldWithValue(data?.createdAt) ? timing(data?.createdAt) : ""}
@@ -144,7 +147,7 @@ export default function RequestCardSimpleView({ data, onClick }) {
           {/* Row 2: room label */}
           <Text
             style={{
-              fontSize: 11,
+              // fontSize: 11,
               color: "#42575B",
               marginBottom: 3,
               fontWeight: "bold",
@@ -156,7 +159,7 @@ export default function RequestCardSimpleView({ data, onClick }) {
 
           {/* Row 3: date interval */}
           <Text
-            style={{ fontSize: 10, color: "#7A9297", marginBottom: 5 }}
+            style={{  color: "#7A9297", marginBottom: 5 }}
             numberOfLines={1}
           >
             {formatReservationIntervalDate(data?.startDate, data?.endDate)}
@@ -164,20 +167,16 @@ export default function RequestCardSimpleView({ data, onClick }) {
 
           {/* Row 4: price + status badge + creator */}
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {price ? (
-              <Text
+            <Text
                 style={{
-                  fontSize: 12,
+                  // fontSize: 12,
                   fontWeight: "700",
                   color: config.color,
                   flex: 1,
                 }}
               >
-                {/* {formatPrice(`${price}`)} XOF */}
+                Nombre de jours: {countNights(data?.startDate, data?.endDate)}
               </Text>
-            ) : (
-              <View style={{ flex: 1 }} />
-            )}
 
             {creatorInitials && (
               <View

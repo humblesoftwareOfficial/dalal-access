@@ -13,7 +13,7 @@ export const PROFILE_SIZE = Math.ceil(
 );
 
 export const USER_PROFILE_CIRCLE_SIZE = Math.ceil(Dimensions.get("window").width / 3);
-export const USER_RESERVATION_CIRCLE_SIZE = Math.ceil(Dimensions.get("window").width / 4);
+export const USER_RESERVATION_CIRCLE_SIZE = Math.ceil(Dimensions.get("window").width / 5.5);
 
 
 export const SAFE_AREA_VIEW = StyleSheet.create({

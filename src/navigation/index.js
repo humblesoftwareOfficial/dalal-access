@@ -8,6 +8,7 @@ import Authentication from "../screens/authentification";
 import UserContext from "../config/contexts/user/User";
 import FullLoadingContainer from "../components/loaders/FullLoadingContainer";
 import { GetItemToStorage } from "../config/local/local.database";
+import ReservationReport from "../screens/Home/ReservationReport";
 
 const navTheme = {
   ...DefaultTheme,
@@ -113,6 +114,11 @@ export default function Navigation() {
               <Stack.Screen
                 name={SCREENS_NAME.Home}
                 component={Home}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name={SCREENS_NAME.ReservationReport}
+                component={ReservationReport}
                 options={{ headerShown: false }}
               />
             </>

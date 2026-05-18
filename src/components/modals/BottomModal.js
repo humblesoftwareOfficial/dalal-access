@@ -4,6 +4,7 @@ import {
   Dimensions,
   Modal,
   PanResponder,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -81,41 +82,37 @@ export default ({
       onRequestClose={handleDismiss}
       statusBarTranslucent
     >
-      <TouchableWithoutFeedback onPress={handleDismiss}>
-        <View
-          style={[
-            BOTTOM_MODAL_STYLE.overlay,
-            {
-              backgroundColor: overlay,
-            },
-          ]}
+      <View
+        style={[
+          BOTTOM_MODAL_STYLE.overlay,
+          { backgroundColor: overlay },
+        ]}
+      >
+        <TouchableWithoutFeedback onPress={handleDismiss}>
+          <View style={StyleSheet.absoluteFillObject} />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={{
+            ...BOTTOM_MODAL_STYLE.container,
+            backgroundColor,
+            minHeight,
+            transform: [{ translateY: translateY }],
+            paddingHorizontal,
+            borderWidth,
+            borderColor,
+          }}
         >
-          <Animated.View
-            style={{
-              ...BOTTOM_MODAL_STYLE.container,
-              backgroundColor,
-              minHeight,
-              transform: [{ translateY: translateY }],
-              paddingHorizontal,
-              borderWidth,
-              borderColor,
-            }}
-            {...panResponders.panHandlers}
-          >
-            <View style={BOTTOM_MODAL_STYLE.sliderIndicatorRow}>
-              <View
-                style={[
-                  BOTTOM_MODAL_STYLE.sliderIndicator,
-                  {
-                    backgroundColor: sliderBackgroundColor,
-                  },
-                ]}
-              />
-            </View>
-            {content}
-          </Animated.View>
-        </View>
-      </TouchableWithoutFeedback>
+          <View style={BOTTOM_MODAL_STYLE.sliderIndicatorRow} {...panResponders.panHandlers}>
+            <View
+              style={[
+                BOTTOM_MODAL_STYLE.sliderIndicator,
+                { backgroundColor: sliderBackgroundColor },
+              ]}
+            />
+          </View>
+          {content}
+        </Animated.View>
+      </View>
     </Modal>
   );
 };
