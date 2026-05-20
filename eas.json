@@ -11,7 +11,7 @@
       },
       "channel": "development"
     },
-"preview": {
+    "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
@@ -24,10 +24,6 @@
         "buildType": "apk"
       },
       "channel": "beta"
-    },
-    "preview": {
-      "distribution": "internal",
-      "channel": "preview"
     },
     "production": {
       "autoIncrement": true,
